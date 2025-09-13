@@ -1,4 +1,4 @@
-import {jwt} from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
 export const getToken = (userId) => {
     // For simplicity, using a base64 encoded string as a token
