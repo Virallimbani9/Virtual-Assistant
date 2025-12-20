@@ -21,7 +21,7 @@ export const SignIn = () => {
     setLoading(true);
     try {
       let result = await axios.post(
-        `${serverUrl}/api/users/logIn`,
+        `${serverUrl}/api/auth/logIn`,
         {
           email,
           password,

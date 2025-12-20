@@ -28,7 +28,7 @@ export const SignUp = () => {
     }
     try {
       let result = await axios.post(
-        `${serverUrl}/api/users/singUp`,
+        `${serverUrl}/api/auth/singUp`,
         {
           firstName,
           lastName,

@@ -1,11 +1,9 @@
 import exprees from 'express';
-import { signUp, logIn, logOut } from '../controllers/auth.controller.js';
+import { getUser } from '../controllers/user.controller.js';
+import authMiddleware from '../middlewares/auth.middleware.js';
 
 const userRouter = exprees.Router();
 
-
-userRouter.post('/singUp',signUp);
-userRouter.post('/logIn',logIn);
-userRouter.get('/logOut',logOut);
+userRouter.get('/getUser', authMiddleware, getUser);
 
 export default userRouter;
