@@ -36,7 +36,7 @@ function Custmize() {
     }
   };
 
-  const isUploadSelected = selectedImage === "input";
+  const isUploadSelected = selectedImage === "input"; 
 
   return (
     <div className="relative w-full min-h-screen bg-[#030712] text-white flex flex-col items-center overflow-x-hidden font-sans">

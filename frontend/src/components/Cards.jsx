@@ -2,7 +2,10 @@ import React, { useContext } from 'react';
 import { userDataContext } from '../context/UserContext.jsx';
 
 function Cards({ image }) {
-  const { selectedImage, setSelectedImage } = useContext(userDataContext);
+  const { selectedImage, setSelectedImage , frontendImage,
+    setFrontendImage,
+    backendImage,
+    setBackendImage,  } = useContext(userDataContext);
 
   // Helper boolean to check if this specific card is selected
   const isSelected = selectedImage === image;
@@ -17,6 +20,8 @@ function Cards({ image }) {
       
       onClick={() => {
         setSelectedImage(image);
+        setFrontendImage(null);
+        setBackendImage(null);
       }}
     >
       

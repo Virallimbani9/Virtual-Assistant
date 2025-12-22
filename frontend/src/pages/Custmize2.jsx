@@ -1,12 +1,31 @@
 import React, { useState, useContext } from 'react';
 import { userDataContext } from '../context/UserContext.jsx';
-// If you don't have react-icons installed, you can remove the icon or use text
-import { FaRobot } from "react-icons/fa"; 
+import { FaRobot } from "react-icons/fa";
+import axios from 'axios';
 
 function Custmize2() {
-    const { userData } = useContext(userDataContext);
+    const { userData, setUserData, serverUrl ,backendImage, selectedImage } = useContext(userDataContext);
     const [assistantName, setAssistantName] = useState(userData?.name || "");
     const [isFocused, setIsFocused] = useState(false);
+
+    const handleSubmit = async () => {
+        try{
+            const fomData = new FormData();
+            fomData.append("assistantName", assistantName);
+            if(backendImage){
+                fomData.append("assistantImage", backendImage);
+            } else{
+                fomData.append("imageUrl", selectedImage);
+            }
+
+            const result = await axios.put(`${serverUrl}/api/users/updateAssistant`, fomData,{withCredentials:true,});
+            console.log("Assistant updated:", result.data);
+            setUserData(result.data);
+
+        } catch (error) {
+            console.error("Error updating assistant:", error);
+        }
+    }
 
     return (
         <div className="relative w-full min-h-screen bg-[#030712] text-white flex flex-col justify-center items-center overflow-hidden font-sans p-4">
@@ -78,7 +97,9 @@ function Custmize2() {
                     {/* --- ACTION BUTTON --- */}
                     <div className="h-16 w-full flex justify-center items-center">
                         {assistantName && (
-                            <button className="group relative w-full py-4 bg-transparent overflow-hidden rounded-lg transition-all duration-500 animate-in fade-in zoom-in slide-in-from-bottom-4">
+                            <button className="group relative w-full cursor-pointer py-4 bg-transparent overflow-hidden rounded-lg transition-all duration-500 animate-in fade-in zoom-in slide-in-from-bottom-4" onClick={()=>{
+                                handleSubmit()
+                            }}>
                                 
                                 {/* Gradient Background */}
                                 <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-violet-600 via-cyan-600 to-violet-600 opacity-90 group-hover:opacity-100 transition-opacity duration-300 bg-[length:200%_auto] animate-gradient"></div>
@@ -88,7 +109,7 @@ function Custmize2() {
 
                                 {/* Text & Icon */}
                                 <span className="relative z-10 flex items-center justify-center gap-3 text-white font-bold tracking-[0.2em] uppercase text-sm">
-                                    Proceed....
+                                    Finalize Assistant
                                     {/* <svg className="w-5 h-5 transition-transform duration-300 group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                                     </svg> */}

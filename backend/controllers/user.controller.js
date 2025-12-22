@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import { uploadInCloudinary } from "../config/cloudnary.js";
 
 
 const getUser = async (req, res) => {
@@ -12,8 +13,32 @@ const getUser = async (req, res) => {
     res.status(200).json({ data: user, message: "User fetched successfully" });
     } catch (err) {
     console.error("Error fetching user:", err);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "Error fetching user" });
     }
 };
 
-export { getUser };
+const updateAssistant = async (req, res) => {
+  try{
+    const { assistantName, imageUrl } = req.body;
+    let assistantImage;
+
+    if(req.file){
+      assistantImage = await uploadInCloudinary(req.file.path);
+    } else {
+      assistantImage = imageUrl;
+    }
+
+    const updatedAssistant = await User.findByIdAndUpdate(
+      req.user.userId,
+      { assistantName: assistantName, assistantImage: assistantImage },
+      { new: true }
+    ).select("-password");
+
+    res.status(200).json({ data: updatedAssistant, message: "Assistant updated successfully" });
+  } catch(err){
+    console.log("Error updating assistant:", err);
+    res.status(500).json({ message: "Error updating assistant" });
+  }
+}
+
+export { getUser, updateAssistant };
