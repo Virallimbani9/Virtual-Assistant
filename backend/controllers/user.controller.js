@@ -3,7 +3,8 @@ import User from "../models/user.model.js";
 
 const getUser = async (req, res) => {
   try {
-    const userId = req.user._id;
+    const userId = req.user.userId;
+    // console.log("Fetching user with ID:", userId);
     const user = await User.findById(userId).select("-password");
     if (!user) {
       return res.status(404).json({ message: "User not found" });

@@ -13,7 +13,7 @@ export const SignIn = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { serverUrl } = useContext(userDataContext);
+  const { serverUrl ,setUserData } = useContext(userDataContext);
 
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -28,14 +28,16 @@ export const SignIn = () => {
         },
         { withCredentials: true }
       );
-      console.log("Result---------------------", result);
+      // console.log("Result---------------------", result); 
+      setUserData(result.data);
       setLoading(false);
       // Logic preserved as requested
-      // if (result.status === 200) {
-      //   navigate("/home");
-      // }
+      if (result.status === 200) {
+        navigate("/custmize");
+      }
     } catch (error) {
       setLoading(false);
+      setUserData(null);
       console.log(error);
       setError(error.response?.data?.message || "Login failed");
     }
@@ -147,12 +149,13 @@ export const SignIn = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-4 px-4 border border-transparent text-sm font-bold rounded-lg text-white overflow-hidden transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+              disabled={loading}
+              className="group relative w-full flex justify-center py-4 px-4 border border-transparent text-sm font-bold rounded-lg text-white overflow-hidden transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 to-violet-600 transition-all duration-300 group-hover:opacity-90" />
               <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20" />
-              <span className="relative flex items-center gap-2 uppercase tracking-widest" disable={loading}>
-                 {loading? "Loading......." : "Initiate Log In"}
+              <span className="relative flex items-center gap-2 uppercase tracking-widest">
+                 {loading ? "Loading......." : "Initiate Log In"}
                 <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
               </span>
             </button>
