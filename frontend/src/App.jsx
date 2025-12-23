@@ -16,9 +16,9 @@ function App() {
       <Route>
         <Route path="/" element={ !userData?<SignIn /> : <Navigate to={"/home"}/>} />
         <Route path="/signup" element={ !userData?<SignUp /> : <Navigate to={"/home"}/>} />
-        <Route path="/home" element={ (userData?.assistantImage && userData?.name)? <Home /> :<Navigate to={"/custmize"}/>} />
         <Route path="/custmize" element={ userData?<Custmize /> : <Navigate to={"/"}/>} />
         <Route path="/custmize2" element={ userData?<Custmize2 /> : <Navigate to={"/"}/>} /> 
+        <Route path="/home" element={ (userData?.assistantImage && userData?.name)? <Home /> :<Navigate to={"/custmize"}/>} />
       </Route>
     </Routes>
   )
