@@ -23,7 +23,8 @@ const updateAssistant = async (req, res) => {
     let assistantImage;
 
     if(req.file){
-      assistantImage = await uploadInCloudinary(req.file.path);
+       const uploadResult = await uploadInCloudinary(req.file.path);
+      assistantImage = uploadResult.url;
     } else {
       assistantImage = imageUrl;
     }
