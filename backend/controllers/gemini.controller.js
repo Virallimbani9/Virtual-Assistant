@@ -11,7 +11,7 @@ export const getGeminiResponse = async (req, res) => {
         }
 
         const user = await User.findById(req.user.userId);
-        const userName = `${user.name.firstName} ${user.name.lastName}`;
+        const userName = user.name || "Viral ";
         const userAssistantName = user.assistantName || "AI Assistant";
 
         // Get parsed JSON response directly from geminiResponse

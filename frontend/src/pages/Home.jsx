@@ -5,7 +5,7 @@ import { userDataContext } from '../context/UserContext.jsx'
 import { useNavigate } from 'react-router-dom'
 
 function Home() {
-  const{userData,setUserData,serverUrl} = useContext(userDataContext);
+  const{userData,setUserData,serverUrl,getGeminiResponse} = useContext(userDataContext);
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -28,12 +28,19 @@ function Home() {
     recognition.interimResults = false;
     recognition.lang = 'en-US';
 
-    recognition.onresult = (event) => {
+    recognition.onresult = async (event) => {
       const lastResultIndex = event.results.length - 1;
       const transcript = event.results[lastResultIndex][0].transcript.trim();
       console.log('You said: ', transcript);
 
+       if (userData?.data?.assistantName) {
+      const assistantName = userData.data.assistantName.toLowerCase();
       
+      if (transcript.toLowerCase().includes(assistantName)) {
+        const data = await getGeminiResponse(transcript);
+        console.log("Gemini Response:", data);
+      }
+    }
     };
     recognition.start();
   }
