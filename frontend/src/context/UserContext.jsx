@@ -23,11 +23,25 @@ function UserContext({children}) {
         }
     }
 
+    const getGeminiResponse = async (command) => {
+        try{
+            const response = await axios.post(`${serverUrl}/api/gemini/askToAssistant`, { command }, {
+                withCredentials: true,
+            });
+            return response.data;
+        } catch(err){
+            console.error("Error fetching Gemini response:", err);
+        }
+    }
+
     useEffect(() => {
         handleCurrentUser();
     }, []);
+    
     const value = {
-        serverUrl, userData, setUserData ,frontendImage, setFrontendImage, backendImage, setBackendImage, selectedImage, setSelectedImage
+        serverUrl, userData, setUserData ,frontendImage, setFrontendImage, 
+        backendImage, setBackendImage, selectedImage, setSelectedImage,
+        getGeminiResponse
     };    
     return(
         <userDataContext.Provider value={value}>

@@ -37,7 +37,7 @@ function Custmize2() {
       setUserData(result.data);
 
       // Navigate to home/dashboard after success
-      // navigate('/home');
+      navigate('/home');
     } catch (error) {
       console.error("Error updating assistant:", error);
     } finally {

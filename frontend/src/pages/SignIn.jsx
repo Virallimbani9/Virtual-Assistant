@@ -33,7 +33,7 @@ export const SignIn = () => {
       setLoading(false);
       // Logic preserved as requested
       if (result.status === 200) {
-        navigate("/custmize");
+        navigate("/home");
       }
     } catch (error) {
       setLoading(false);
